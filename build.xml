@@ -1,0 +1,42 @@
+<project name="Calculadora">
+
+  <property name="src.dir" location="src" />
+  <property name="build.dir" location="bin" />
+
+  <path id="tests.classpath" path=".">
+		<fileset dir="lib/">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement path="target/classes/" />
+  </path>
+  
+  <target name="clean">
+    <delete dir="target/classes/"/>
+    <delete dir="target/classes-test/"/>
+  </target>
+
+	<target name="compile">
+		<mkdir dir="target/classes/"/>
+		<mkdir dir="target/classes-test/"/>
+		<javac includeantruntime="false" destdir="target/classes/" srcdir="src/main/" debug="true" encoding="UTF-8">
+
+        </javac>
+		<javac includeantruntime="false" destdir="target/classes-test/" srcdir="src/test/" classpathref="tests.classpath" debug="true" encoding="UTF-8" />
+	</target>
+
+	<target name="test" depends="compile">
+		<junit fork="yes" forkmode="once"  printsummary="true" showoutput="true" failureproperty="failed-test" haltonfailure="true" >
+			<formatter type="plain" usefile="false" />
+			<classpath location="target/classes-test/" />
+			<classpath refid="tests.classpath" />
+			<batchtest fork="yes" todir="${artifacts.dir}/reports">
+				<fileset dir="target/classes-test/" >
+					<include name="**/*Test.class" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	<target name="jar" depends="test">
+		<jar destfile="target/calculadora.jar" basedir="target/classes/" />
+	</target>
+</project>
