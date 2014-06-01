@@ -23,13 +23,14 @@ public class CalculadoraTest {
 	}
 
 	@Test(expected = DivisaoPorZeroException.class)
-	public void testDivZero() {
+	public void testDivZero() throws DivisaoPorZeroException {
 		Calculadora c = new Calculadora();
-		try {
-			c.div(10, 0);
-		} catch (DivisaoPorZeroException e) {
+		c.div(10.0, 0);
+		//try {
+			//c.div(10, 0);
+		//} catch (DivisaoPorZeroException e) {
 			
-		}
+	//}
 	}
 	
 
