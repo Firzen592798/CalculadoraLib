@@ -1,6 +1,6 @@
 package main;
 //Calculadoralib
-public class Cal culadora {
+public class Calculadora {
 	public Calculadora(){
 		//
 	}
