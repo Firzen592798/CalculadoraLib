@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="5.1.1" timestamp="2014-06-05T20:19:04.744">
+<file name="/home/jorge/git/CalculadoraLib/src/main/Calculadora.java">
+<violation beginline="5" endline="5" begincolumn="22" endcolumn="24" rule="UnusedPrivateMethod" ruleset="Unused Code" package="main" class="Calculadora" method="x" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.1.1/rules/java/unusedcode.html#UnusedPrivateMethod" priority="3">
+Avoid unused private methods such as 'x()'.
+</violation>
+</file>
+</pmd>

@@ -1,7 +1,12 @@
 package main;
 
 public class Calculadora {
-	public final double soma(final double a, final double b) {
+	
+	private void x(){
+		
+	}
+
+	public double soma(final double a, final double b){
 		return a + b;
 	}
 

@@ -4,6 +4,8 @@
 	<property name="build.dir" location="bin" />
 	<property name="target.dir" location="target" />
 	<property name="reports.dir" location="${target.dir}/reports" />
+	<property name="pmd-reports.dir" location="${target.dir}/reports/pmd" />
+	<property name="checkstyle-reports.dir" location="${target.dir}/reports/checkstyle" />
 
 	<path id="defalt.classpath" path=".">
 		<fileset dir="lib/">
@@ -17,7 +19,6 @@
 	<target name="clean">
 		<delete dir="target/classes/" />
 		<delete dir="target/classes-test/" />
-		<delete dir="${reports.dir}" />
 	</target>
 
 	<target name="compile" depends="clean">
@@ -48,27 +49,42 @@
 	
 
 	<path id="pmd.classpath">
-		<pathelement location="${build}" />
+		<pathelement location="${build.dir}" />
 		<fileset dir="pmd-libs/">
 			<include name="*.jar" />
 		</fileset>
 	</path>
-
 	
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath"/>
+
+	<target name="pmd" depends="compile">
+		
+		<delete dir="${pmd-reports.dir}" />
+		<mkdir dir="${pmd-reports.dir}" />
+		
+	    <pmd rulesetfiles="rulesets/java/imports.xml,java-unusedcode,java-basic">
+	        <formatter type="xml" toFile="${pmd-reports.dir}/pmd_report.xml"/>
+	    	<fileset dir="src" includes="**/*.java" />
+	    </pmd>
+		
+		<xslt in="${pmd-reports.dir}/pmd_report.xml" style="docs/wz-pmd-report.xslt" out="${pmd-reports.dir}/report_pmd.html" />
+	</target>
+
 
 	<taskdef resource="checkstyletask.properties" classpath="checkstyle-libs/checkstyle-5.7-all.jar" />
 
 
 	<target name="checkstyle" description="Generates a report of code convention violations." depends="compile">
 
-		<mkdir dir="${reports.dir}" />
+		<delete dir="${checkstyle-reports.dir}" />
+		<mkdir dir="${checkstyle-reports.dir}" />
 		
 		<checkstyle config="docs/sun_checks.xml" failureProperty="checkstyle.failure" failOnViolation="false">
-			<formatter type="xml" tofile="${reports.dir}/checkstyle_report.xml" />
+			<formatter type="xml" tofile="${checkstyle-reports.dir}/checkstyle_report.xml" />
 			<fileset dir="src" includes="**/*.java" />
 		</checkstyle>
 
-		<xslt style="docs/checkstyle-simple.xsl" in="${reports.dir}/checkstyle_report.xml" out="${reports.dir}/checkstyle_report.html">
+		<xslt style="docs/checkstyle-simple.xsl" in="${checkstyle-reports.dir}/checkstyle_report.xml" out="${checkstyle-reports.dir}/checkstyle_report.html">
 
 		</xslt>
 
