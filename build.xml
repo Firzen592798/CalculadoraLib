@@ -49,23 +49,14 @@
 
 	<path id="pmd.classpath">
 		<pathelement location="${build}" />
-		<fileset dir="/home/jorge/pmd-bin-5.1.1/lib/">
+		<fileset dir="pmd-libs/">
 			<include name="*.jar" />
 		</fileset>
 	</path>
 
-	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath" />
+	
 
-	<target name="pmd">
-		<pmd rulesetfiles="docs/pmd-rules">
-			<formatter type="html" toFile="${reports.dir}/pmd_report.html" toConsole="true" />
-			<fileset dir="src">
-				<include name="**/*.java" />
-			</fileset>
-		</pmd>
-	</target>
-
-	<taskdef resource="checkstyletask.properties" classpath="/home/jorge/checkstyle-5.7/checkstyle-5.7-all.jar" />
+	<taskdef resource="checkstyletask.properties" classpath="checkstyle-libs/checkstyle-5.7-all.jar" />
 
 
 	<target name="checkstyle" description="Generates a report of code convention violations." depends="compile">
