@@ -1,5 +1,5 @@
 package main;
-//Calculadorali
+//Calculadoralib
 public class Calculadora {
 	public Calculadora(){
 		//
