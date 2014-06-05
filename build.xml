@@ -1,42 +1,87 @@
-<project name="Calculadora">
+<project name="Calculadora" default="jar">
 
-  <property name="src.dir" location="src" />
-  <property name="build.dir" location="bin" />
+	<property name="src.dir" location="src" />
+	<property name="build.dir" location="bin" />
+	<property name="target.dir" location="target" />
+	<property name="reports.dir" location="${target.dir}/reports" />
 
-  <path id="tests.classpath" path=".">
+	<path id="defalt.classpath" path=".">
 		<fileset dir="lib/">
 			<include name="*.jar" />
 		</fileset>
 		<pathelement path="target/classes/" />
-  </path>
-  
-  <target name="clean">
-    <delete dir="target/classes/"/>
-    <delete dir="target/classes-test/"/>
-  </target>
+	</path>
 
-	<target name="compile">
-		<mkdir dir="target/classes/"/>
-		<mkdir dir="target/classes-test/"/>
+
+
+	<target name="clean">
+		<delete dir="target/classes/" />
+		<delete dir="target/classes-test/" />
+		<delete dir="${reports.dir}" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="target/classes/" />
+		<mkdir dir="target/classes-test/" />
 		<javac includeantruntime="false" destdir="target/classes/" srcdir="src/main/" debug="true" encoding="UTF-8">
 
-        </javac>
-		<javac includeantruntime="false" destdir="target/classes-test/" srcdir="src/test/" classpathref="tests.classpath" debug="true" encoding="UTF-8" />
+		</javac>
+		<javac includeantruntime="false" destdir="target/classes-test/" srcdir="src/test/" classpathref="defalt.classpath" debug="true" encoding="UTF-8" />
 	</target>
 
 	<target name="test" depends="compile">
-		<junit fork="yes" forkmode="once"  printsummary="true" showoutput="true" failureproperty="failed-test" haltonfailure="true" >
+		<junit fork="yes" forkmode="once" printsummary="true" showoutput="true" failureproperty="failed-test" haltonfailure="true">
 			<formatter type="plain" usefile="false" />
 			<classpath location="target/classes-test/" />
-			<classpath refid="tests.classpath" />
+			<classpath refid="defalt.classpath" />
 			<batchtest fork="yes" todir="${artifacts.dir}/reports">
-				<fileset dir="target/classes-test/" >
+				<fileset dir="target/classes-test/">
 					<include name="**/*Test.class" />
 				</fileset>
 			</batchtest>
 		</junit>
 	</target>
+	
 	<target name="jar" depends="test">
 		<jar destfile="target/calculadora.jar" basedir="target/classes/" />
 	</target>
+	
+
+	<path id="pmd.classpath">
+		<pathelement location="${build}" />
+		<fileset dir="pmd-libs/">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	
+
+	<taskdef resource="checkstyletask.properties" classpath="checkstyle-libs/checkstyle-5.7-all.jar" />
+
+
+	<target name="checkstyle" description="Generates a report of code convention violations." depends="compile">
+
+		<mkdir dir="${reports.dir}" />
+		
+		<checkstyle config="docs/sun_checks.xml" failureProperty="checkstyle.failure" failOnViolation="false">
+			<formatter type="xml" tofile="${reports.dir}/checkstyle_report.xml" />
+			<fileset dir="src" includes="**/*.java" />
+		</checkstyle>
+
+		<xslt style="docs/checkstyle-simple.xsl" in="${reports.dir}/checkstyle_report.xml" out="${reports.dir}/checkstyle_report.html">
+
+		</xslt>
+
+	</target>
+
+
+	<!-- run this target as part of automated build -->
+	<target name="checkstyle-nightly" depends="checkstyle" if="checkstyle.failure" description="Sends email if checkstyle detected code conventions violations.">
+
+		<!-- use your own server and email addresses below. See Ant documentation for details -->
+
+		<mail from="qa@some.domain" tolist="someone@some.domain,someoneelse@some.domain" mailhost="mailbox.some.domain" subject="Checkstyle violation(s) in project ${ant.project.name}" files="checkstyle_report.html" />
+
+	</target>
+
 </project>

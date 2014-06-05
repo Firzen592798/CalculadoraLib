@@ -7,16 +7,20 @@ public class Cal culadora {
 	public double soma(double a, double b){
 		return a + b;
 	}
-	public double mult(double a, double b){
+
+	public final double mult(final double a, final double b) {
 		return a * b;
 	}
-	public double sub(double a, double b){
+
+	public final double sub(final double a, final double b) {
 		return a - b;
 	}
-	public double div(double a, double b) throws DivisaoPorZeroException{
-		if(b != 0){
+
+	public final double div(final double a, final double b)
+			throws DivisaoPorZeroException {
+		if (b != 0) {
 			return a / b;
-		}else{
+		} else {
 			throw new DivisaoPorZeroException();
 		}
 	}
