@@ -24,7 +24,7 @@ public class Calculadora {
 	public final double div(final double a, final double b)
 			throws DivisaoPorZeroException {
 		if (b != 0) {
-			return a / b;
+			return a + b;
 		} else {
 			throw new DivisaoPorZeroException();
 		}
