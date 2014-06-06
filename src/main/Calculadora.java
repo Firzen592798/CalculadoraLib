@@ -9,7 +9,7 @@ public class Calculadora {
 		
 	}
 
-	public double soma(final double a, final double b){
+	public dou ble soma(final double a, final double b){
 		return a + b;
 	}
 
