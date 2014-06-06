@@ -90,6 +90,18 @@
 
 	</target>
 
+	
+	<target name="zip">
+	    <tstamp/>
+	    <zip destfile="Artefatos.zip">
+	      <zipfileset dir=".">
+	        <exclude name="bin/"/>
+	      	<exclude name="Artefatos.zip"/>
+	      	<exclude name="checkstyle-libs/"/>
+	      	<exclude name="pmd-libs/"/>	      		
+	      </zipfileset>
+	    </zip>
+	  </target>
 
 	<!-- run this target as part of automated build -->
 	<target name="checkstyle-nightly" depends="checkstyle" if="checkstyle.failure" description="Sends email if checkstyle detected code conventions violations.">
