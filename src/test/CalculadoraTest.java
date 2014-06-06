@@ -12,27 +12,6 @@ public class CalculadoraTest {
 		assertEquals(c.soma(2, 4), 6, DELTA);
 	}
 	
-	@Test
-	public void testDiv() {
-		Calculadora c = new Calculadora();
-		try {
-			assertEquals(c.div(10, 2), 5, DELTA);
-		} catch (DivisaoPorZeroException e) {
-			fail();
-		}
-	}
-
-	@Test(expected = DivisaoPorZeroException.class)
-	public void testDivZero() throws DivisaoPorZeroException {
-		Calculadora c = new Calculadora();
-		c.div(10.0, 0);
-		//try {
-			//c.div(10, 0);
-		//} catch (DivisaoPorZeroException e) {
-			
-	//}
-	}
-	
 
 	@Test
 	public void testSub() {
